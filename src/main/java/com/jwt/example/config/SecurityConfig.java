@@ -37,9 +37,8 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/home/**").authenticated()
-                        .requestMatchers("/auth/login").permitAll()
-                        .requestMatchers("/user/**").permitAll()
+                        .requestMatchers("/home/**").hasRole("ADMIN")
+                        .requestMatchers("/auth/login","/user/**").permitAll()
                         .anyRequest().authenticated())
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(point))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
