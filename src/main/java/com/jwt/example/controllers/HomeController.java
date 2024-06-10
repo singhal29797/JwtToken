@@ -1,12 +1,9 @@
 package com.jwt.example.controllers;
 
-
 import com.jwt.example.models.User;
 import com.jwt.example.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
@@ -20,7 +17,7 @@ public class HomeController {
 
     @GetMapping("/users")
     public List<User> getUser(){
-        return userService.getStore();
+        return userService.getUsers();
     }
 
     @GetMapping("/current-user")

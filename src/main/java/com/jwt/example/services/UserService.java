@@ -1,42 +1,31 @@
 package com.jwt.example.services;
 
 import com.jwt.example.models.User;
+import com.jwt.example.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
 @Service
 public class UserService {
 
-    private final List<User> store = new ArrayList<>();
+    @Autowired
+    private UserRepository userRepository;
 
-    public List<User> getStore() {
-        store.add(User.builder()
-                .userId(UUID.randomUUID().toString())
-                .name("Shivam Singhal")
-                .designation("Engineer")
-                .build());
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
-        store.add(User.builder()
-                .userId(UUID.randomUUID().toString())
-                .name("Harsh Tiwari")
-                .designation("Architect")
-                .build());
+    public List<User> getUsers() {
+        return userRepository.findAll();
+    }
 
-        store.add(User.builder()
-                .userId(UUID.randomUUID().toString())
-                .name("Ankit Saini")
-                .designation("Accountant")
-                .build());
-
-        store.add(User.builder()
-                .userId(UUID.randomUUID().toString())
-                .name("Satyansh Singh")
-                .designation("Business Man")
-                .build());
-
-        return store;
+    public User createUser(User user){
+        user.setUserId(UUID.randomUUID().toString());
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return userRepository.save(user);
     }
 }
